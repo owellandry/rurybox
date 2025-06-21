@@ -22,11 +22,11 @@ const h = async (r) => {
   if (!c)
     try {
       c = await m.initialize({
-        wasmURL: `${window.location.origin}/esbuild.wasm`,
+        wasmURL: "https://unpkg.com/esbuild-wasm@0.19.0/esbuild.wasm",
         worker: !0
       });
     } catch (e) {
-      throw console.error("Error initializing esbuild:", e), new Error("Failed to initialize esbuild. Make sure esbuild.wasm is in your public folder.");
+      throw console.error("Error initializing esbuild:", e), new Error("Failed to initialize esbuild.");
     }
   try {
     return (await c.build({
@@ -43,7 +43,7 @@ const h = async (r) => {
   } catch (e) {
     throw console.error("Error bundling code:", e), e;
   }
-}, x = () => {
+}, f = () => {
   const [r, e] = n(`
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -115,5 +115,5 @@ root.render(<App />);
   ] });
 };
 export {
-  x as Rurybox
+  f as Rurybox
 };
