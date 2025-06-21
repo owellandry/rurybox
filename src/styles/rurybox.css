@@ -16,12 +16,25 @@
   line-height: 1.5;
   resize: vertical;
   background-color: #f8f9fa;
+  transition: opacity 0.2s;
+}
+
+.rurybox-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .rurybox-textarea:focus {
   outline: none;
   border-color: #007acc;
   box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.1);
+}
+
+.rurybox-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .rurybox-button {
@@ -35,14 +48,31 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
+  min-width: 100px;
 }
 
-.rurybox-button:hover {
+.rurybox-button:hover:not(:disabled) {
   background-color: #005a9e;
 }
 
-.rurybox-button:active {
+.rurybox-button:active:not(:disabled) {
   background-color: #004785;
+}
+
+.rurybox-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.rurybox-error {
+  padding: 8px 12px;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  color: #c33;
+  font-size: 14px;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .rurybox-iframe {
