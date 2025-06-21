@@ -16,21 +16,24 @@
     "./styles": "./dist/styles/rurybox.css"
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "rm -rf dist && tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
     "dev": "vite"
   },
   "dependencies": {
     "esbuild-wasm": "^0.19.0",
     "path": "^0.12.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.5.2",
+    "@vitejs/plugin-react": "^4.0.0",
     "typescript": "^5.0.0",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^4.5.4"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
