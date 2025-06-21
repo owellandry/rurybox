@@ -21,7 +21,9 @@
     "dev": "vite"
   },
   "dependencies": {
-    "esbuild-wasm": "^0.19.0"
+    "esbuild-wasm": "^0.19.0",
+    "path": "^0.12.7",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@types/react": "^19.1.8",
