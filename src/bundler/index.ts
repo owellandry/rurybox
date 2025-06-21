@@ -7,12 +7,12 @@ export const bundleCode = async (rawCode: string) => {
   if (!service) {
     try {
       service = await esbuild.initialize({
-        wasmURL: `${window.location.origin}/esbuild.wasm`,
+        wasmURL: 'https://unpkg.com/esbuild-wasm@0.19.0/esbuild.wasm',
         worker: true,
       });
     } catch (error) {
       console.error('Error initializing esbuild:', error);
-      throw new Error('Failed to initialize esbuild. Make sure esbuild.wasm is in your public folder.');
+      throw new Error('Failed to initialize esbuild.');
     }
   }
 
