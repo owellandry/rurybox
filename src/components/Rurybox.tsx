@@ -14,20 +14,26 @@ root.render(<App />);
   `);
 
   const runCode = async () => {
-    const output = await bundleCode(code);
-    const iframe = document.getElementById('rurybox-preview') as HTMLIFrameElement;
-    iframe.srcdoc = `
-      <html>
-        <body>
-          <div id="root"></div>
-          <script>${output}</script>
-        </body>
-      </html>
-    `;
+    try {
+      const output = await bundleCode(code);
+      const iframe = document.getElementById('rurybox-preview') as HTMLIFrameElement;
+      if (iframe) {
+        iframe.srcdoc = `
+          <html>
+            <body>
+              <div id="root"></div>
+              <script>${output}</script>
+            </body>
+          </html>
+        `;
+      }
+    } catch (error) {
+      console.error('Error ejecutando el código:', error);
+    }
   };
 
   return (
-    <div>
+    <div className="rurybox-container">
       <textarea
         className="rurybox-textarea"
         value={code}
