@@ -27,5 +27,8 @@
     "editor"
   ],
   "author": "owellandry",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
