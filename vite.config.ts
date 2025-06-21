@@ -1,8 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve, dirname } from 'path'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { fileURLToPath } = require('url')
+import { fileURLToPath } from 'url'
 import dts from 'vite-plugin-dts'
 
 export default defineConfig({
@@ -23,20 +22,20 @@ export default defineConfig({
     },
     rollupOptions: {
       external: (id) => {
-        // Excluir React y todas sus variantes
+        // Excluir React, ReactDOM y Babel
         return id.includes('react') || 
                id === 'react' || 
                id === 'react-dom' || 
                id === 'react/jsx-runtime' || 
                id === 'react-dom/client' ||
-               id.includes('esbuild-wasm')
+               id.includes('@babel/standalone')
       },
       output: {
         globals: {
           'react': 'React',
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'ReactJSXRuntime',
-          'esbuild-wasm': 'esbuild'
+          '@babel/standalone': 'Babel'
         }
       }
     },

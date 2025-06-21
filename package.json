@@ -1,6 +1,6 @@
 {
   "name": "@rurylox/rurybox",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc && vite build",
     "build:types": "tsc --emitDeclarationOnly",
-    "dev": "vite"
+    "dev": "vite",
+    "clean": "rm -rf dist node_modules pnpm-lock.yaml"
   },
   "dependencies": {
     "@babel/standalone": "^7.23.0"
@@ -45,7 +46,7 @@
     "typescript",
     "rurybox",
     "editor",
-    "vite",
+    "babel",
     "live-coding"
   ],
   "author": "owellandry",
