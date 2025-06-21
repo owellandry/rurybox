@@ -1,38 +1,50 @@
-import { jsxs as c, jsx as o } from "react/jsx-runtime";
-import { useState as i } from "react";
-import * as l from "esbuild-wasm";
-const d = () => ({
+import { jsxs as a, jsx as i } from "react/jsx-runtime";
+import { useState as n } from "react";
+import * as m from "esbuild-wasm";
+const p = () => ({
   name: "fetch-plugin",
-  setup(e) {
-    e.onResolve({ filter: /^(react|react-dom)$/ }, (t) => ({
-      path: `https://esm.sh/${t.path}`,
+  setup(r) {
+    r.onResolve({ filter: /^(react|react-dom)$/ }, (e) => ({
+      path: `https://esm.sh/${e.path}`,
       namespace: "a"
-    })), e.onResolve({ filter: /.*/ }, (t) => ({
-      path: `https://esm.sh/${t.path}`,
+    })), r.onResolve({ filter: /.*/ }, (e) => ({
+      path: `https://esm.sh/${e.path}`,
       namespace: "a"
-    })), e.onLoad({ filter: /.*/ }, async (t) => ({
-      contents: await (await fetch(t.path)).text(),
+    })), r.onLoad({ filter: /.*/ }, async (e) => ({
+      contents: await (await fetch(e.path)).text(),
       loader: "tsx"
       // puedes cambiar a 'js' si solo manejas JS puro
     }));
   }
 });
-let a;
-const u = async (e) => (a || (a = await l.initialize({
-  wasmURL: "/esbuild.wasm",
-  worker: !0
-})), (await a.build({
-  entryPoints: ["index.tsx"],
-  bundle: !0,
-  write: !1,
-  plugins: [d()],
-  stdin: {
-    contents: e,
-    resolveDir: "/",
-    loader: "tsx"
+let c;
+const h = async (r) => {
+  if (!c)
+    try {
+      c = await m.initialize({
+        wasmURL: `${window.location.origin}/esbuild.wasm`,
+        worker: !0
+      });
+    } catch (e) {
+      throw console.error("Error initializing esbuild:", e), new Error("Failed to initialize esbuild. Make sure esbuild.wasm is in your public folder.");
+    }
+  try {
+    return (await c.build({
+      entryPoints: ["index.tsx"],
+      bundle: !0,
+      write: !1,
+      plugins: [p()],
+      stdin: {
+        contents: r,
+        resolveDir: "/",
+        loader: "tsx"
+      }
+    })).outputFiles[0].text;
+  } catch (e) {
+    throw console.error("Error bundling code:", e), e;
   }
-})).outputFiles[0].text), x = () => {
-  const [e, t] = i(`
+}, x = () => {
+  const [r, e] = n(`
 import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -40,34 +52,58 @@ const App = () => <h1>Hola desde Rurybox</h1>;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
-  `);
-  return /* @__PURE__ */ c("div", { className: "rurybox-container", children: [
-    /* @__PURE__ */ o(
+  `), [o, s] = n(!1), [l, d] = n(null);
+  return /* @__PURE__ */ a("div", { className: "rurybox-container", children: [
+    /* @__PURE__ */ i(
       "textarea",
       {
         className: "rurybox-textarea",
-        value: e,
-        onChange: (r) => t(r.target.value),
+        value: r,
+        onChange: (t) => e(t.target.value),
         title: "Editor de código",
-        placeholder: "Escribe tu código JSX aquí"
+        placeholder: "Escribe tu código JSX aquí",
+        disabled: o
       }
     ),
-    /* @__PURE__ */ o("button", { className: "rurybox-button", onClick: async () => {
-      try {
-        const r = await u(e), s = document.getElementById("rurybox-preview");
-        s && (s.srcdoc = `
+    /* @__PURE__ */ a("div", { className: "rurybox-controls", children: [
+      /* @__PURE__ */ i(
+        "button",
+        {
+          className: "rurybox-button",
+          onClick: async () => {
+            s(!0), d(null);
+            try {
+              const t = await h(r), u = document.getElementById("rurybox-preview");
+              u && (u.srcdoc = `
           <html>
+            <head>
+              <style>
+                body { margin: 0; padding: 20px; font-family: system-ui, sans-serif; }
+                #root { min-height: 100vh; }
+              </style>
+            </head>
             <body>
               <div id="root"></div>
-              <script>${r}<\/script>
+              <script>${t}<\/script>
             </body>
           </html>
         `);
-      } catch (r) {
-        console.error("Error ejecutando el código:", r);
-      }
-    }, children: "Ejecutar" }),
-    /* @__PURE__ */ o(
+            } catch (t) {
+              console.error("Error ejecutando el código:", t), d(t instanceof Error ? t.message : "Error desconocido");
+            } finally {
+              s(!1);
+            }
+          },
+          disabled: o,
+          children: o ? "Ejecutando..." : "Ejecutar"
+        }
+      ),
+      l && /* @__PURE__ */ a("div", { className: "rurybox-error", children: [
+        "Error: ",
+        l
+      ] })
+    ] }),
+    /* @__PURE__ */ i(
       "iframe",
       {
         id: "rurybox-preview",
