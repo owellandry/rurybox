@@ -21,11 +21,20 @@ export default defineConfig({
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'esbuild-wasm'],
+      external: (id) => {
+        // Excluir React y todas sus variantes
+        return id.includes('react') || 
+               id === 'react' || 
+               id === 'react-dom' || 
+               id === 'react/jsx-runtime' || 
+               id === 'react-dom/client' ||
+               id.includes('esbuild-wasm')
+      },
       output: {
         globals: {
-          react: 'React',
+          'react': 'React',
           'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'ReactJSXRuntime',
           'esbuild-wasm': 'esbuild'
         }
       }
